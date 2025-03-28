@@ -23,20 +23,37 @@ function App() {
         setTodos(newTodoList)
     }
 
-    function handleEditTodo() {
-        
+    function handleCompleteTodo(index) {
+        // update/edit/modify
+        let newTodoList = [...todos]
+        let completedTodo = todos[index]
+        completedTodo['complete'] = true
+        newTodoList[index] = completedTodo
+        setTodos(newTodoList)
     }
 
-    function handleDeleteTodo() {
-        
-    }
+    const handleEditTodo = (index) => {
+        const newTodoList = todos.map((todo, i) =>
+            i === index ? { ...todo, complete: !todo.complete } : todo
+        );
+        setTodos(newTodoList);
+    };
+   
 
+    function handleDeleteTodo(index) {
+        let newTodoList = todos.filter((val, valIndex) => {
+            return valIndex !== index
+        })
+        setTodos(newTodoList)
+    }
+    
+    // code dibawah ini utk di pass ke file component2
     return (
         <>
         <Header todos={todos}/>
         <Tabs selectedTab={selectedTab} setSelectedTab={setSelectedTab} todos={todos}/>
         <TodoInput handleAddTodo={handleAddTodo}/>
-        <TodoList todos={todos}/>
+        <TodoList handleCompleteTodo={handleCompleteTodo} handleDeleteTodo={handleDeleteTodo} handleEditTodo={handleEditTodo} selectedTab={selectedTab} todos={todos}/>
         
         </>
         )
