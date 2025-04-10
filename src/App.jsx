@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Header } from "./components/Header"
 import { Tabs } from "./components/Tabs"
 import { TodoInput } from "./components/TodoInput"
@@ -21,6 +21,7 @@ function App() {
     function handleAddTodo(newTodo) {
         const newTodoList = [...todos, {input: newTodo, complete: false}]
         setTodos(newTodoList)
+        handleSaveData(newTodoList)
     }
 
     function handleCompleteTodo(index) {
@@ -30,14 +31,15 @@ function App() {
         completedTodo['complete'] = true
         newTodoList[index] = completedTodo
         setTodos(newTodoList)
+        handleSaveData(newTodoList)
     }
 
-    const handleEditTodo = (index) => {
-        const newTodoList = todos.map((todo, i) =>
-            i === index ? { ...todo, complete: !todo.complete } : todo
-        );
-        setTodos(newTodoList);
-    };
+    // const handleEditTodo = (index) => {
+    //     const newTodoList = todos.map((todo, i) =>
+    //         i === index ? { ...todo, complete: !todo.complete } : todo
+    //     );
+    //     setTodos(newTodoList);
+    // };
    
 
     function handleDeleteTodo(index) {
@@ -45,15 +47,35 @@ function App() {
             return valIndex !== index
         })
         setTodos(newTodoList)
+        handleSaveData(newTodoList)
     }
+
+    function handleSaveData(currTodos) {
+        localStorage.setItem('todo-app', JSON.stringify({ todos: currTodos }))
+    }
+    
+    useEffect(() => {
+        if (!localStorage || !localStorage.getItem('todo-app')) {
+            return }
+        let db = JSON.parse(localStorage.getItem('todo-app'))
+        setTodos(db.todos)
+    }, [])
     
     // code dibawah ini utk di pass ke file component2
     return (
         <>
         <Header todos={todos}/>
-        <Tabs selectedTab={selectedTab} setSelectedTab={setSelectedTab} todos={todos}/>
+        <Tabs 
+        selectedTab={selectedTab} 
+        setSelectedTab={setSelectedTab} 
+        todos={todos}/>
         <TodoInput handleAddTodo={handleAddTodo}/>
-        <TodoList handleCompleteTodo={handleCompleteTodo} handleDeleteTodo={handleDeleteTodo} handleEditTodo={handleEditTodo} selectedTab={selectedTab} todos={todos}/>
+        <TodoList 
+        handleCompleteTodo={handleCompleteTodo} 
+        handleDeleteTodo={handleDeleteTodo}
+        // handleEditTodo={handleEditTodo} 
+        selectedTab={selectedTab} 
+        todos={todos}/>
         
         </>
         )
