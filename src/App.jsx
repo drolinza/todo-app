@@ -16,7 +16,7 @@ function App() {
         {input: "Hi Dina! add your first todo!", complete: true}
     ])
 
-    const [selectedTab, setSelectedTab] = useState('Open')
+    const [selectedTab, setSelectedTab] = useState('All')
 
     function handleAddTodo(newTodo) {
         const newTodoList = [...todos, {input: newTodo, complete: false}]
