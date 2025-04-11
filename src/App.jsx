@@ -33,13 +33,6 @@ function App() {
         setTodos(newTodoList)
         handleSaveData(newTodoList)
     }
-
-    // const handleEditTodo = (index) => {
-    //     const newTodoList = todos.map((todo, i) =>
-    //         i === index ? { ...todo, complete: !todo.complete } : todo
-    //     );
-    //     setTodos(newTodoList);
-    // };
    
 
     function handleDeleteTodo(index) {
@@ -73,10 +66,8 @@ function App() {
         <TodoList 
         handleCompleteTodo={handleCompleteTodo} 
         handleDeleteTodo={handleDeleteTodo}
-        // handleEditTodo={handleEditTodo} 
         selectedTab={selectedTab} 
         todos={todos}/>
-        
         </>
         )
     }
